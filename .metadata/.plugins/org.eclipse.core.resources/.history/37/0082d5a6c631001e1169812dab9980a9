@@ -1,0 +1,12 @@
+package com.snm.candidateevaluationapplication.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller(value = "/report")
+public class ReportController {
+	
+	public String leveslReport() {
+		return "levels-report";
+	}
+
+}

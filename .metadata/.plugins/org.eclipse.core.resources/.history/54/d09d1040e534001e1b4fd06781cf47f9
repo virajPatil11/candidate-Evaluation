@@ -1,0 +1,38 @@
+package com.snm.candidateevaluationapplication.repository.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+import com.snm.candidateevaluationapplication.repository.ReportRepository;
+
+@Repository
+public class ReportRepositoryImp implements ReportRepository {
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
+	String sqlQuery;
+
+	@Override
+	public List<Feedback> findByLevel(String feedbackScreeningLevel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Feedback> findByEvaluator(int feedbackEvalutorId) {
+		
+		return null;
+	}
+
+	@Override
+	public List<Feedback> findByFeedbackStatus(String feedbackStatus) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

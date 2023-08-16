@@ -1,0 +1,5 @@
+package com.snm.candidateevaluationapplication.repository.impl;
+
+public class ReportRepositoryImp {
+
+}

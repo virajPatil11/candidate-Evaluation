@@ -1,0 +1,14 @@
+package com.snm.candidateevaluationapplication.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller(value = "/report")
+public class ReportController {
+	
+	@GetMapping(value = "/levels-report")
+	public String leveslReport() {
+		return "levels-report";
+	}
+
+}

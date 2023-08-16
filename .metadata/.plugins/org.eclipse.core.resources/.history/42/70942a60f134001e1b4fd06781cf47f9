@@ -1,0 +1,60 @@
+package com.snm.candidateevaluationapplication.repository.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+import com.snm.candidateevaluationapplication.repository.ReportRepository;
+import com.snm.candidateevaluationapplication.services.impl.FeedbackRowMapper;
+
+@Repository
+public class ReportRepositoryImp implements ReportRepository {
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
+	String sqlQuery;
+	
+	@Autowired 
+	FeedbackRowMapper feedbackRowMapper;
+
+	@Override
+	public List<Feedback> findByLevel(String feedbackScreeningLevel) {
+		sqlQuery = "SELECT * \r\n"
+				+ "FROM cea_candidate c INNER JOIN \r\n"
+				+ "		cea_master_employee me INNER JOIN \r\n"
+				+ "     cea_feedback fb \r\n"
+				+ "ON c.candidate_id = fb.feedback_candidate_id AND	\r\n"
+				+ "	me.emp_id = fb.feedback_evaluator_id \r\n"
+				+ "WHERE fb.feedback_screening_level = ?";
+		return this.jdbcTemplate.query(sqlQuery, feedbackRowMapper, feedbackScreeningLevel);
+	}
+
+	@Override
+	public List<Feedback> findByEvaluator(String empName) {
+		sqlQuery = "SELECT *\r\n"
+				+ "FROM cea_candidate c INNER JOIN \r\n"
+				+ "		cea_master_employee me INNER JOIN \r\n"
+				+ "     cea_feedback fb\r\n"
+				+ "ON c.candidate_id = fb.feedback_candidate_id AND	\r\n"
+				+ "	me.emp_id = fb.feedback_evaluator_id\r\n"
+				+ "WHERE me.emp_name = ?";
+		return this.jdbcTemplate.query(sqlQuery, feedbackRowMapper, empName);
+	}
+
+	@Override
+	public List<Feedback> findByFeedbackStatus(String feedbackStatus) {
+		sqlQuery = "SELECT COUNT(*) \r\n"
+				+ "FROM cea_candidate c INNER JOIN \r\n"
+				+ "		cea_master_employee me INNER JOIN \r\n"
+				+ "      cea_feedback fb \r\n"
+				+ "ON c.candidate_id = fb.feedback_candidate_id AND	\r\n"
+				+ "	me.emp_id = fb.feedback_evaluator_id \r\n"
+				+ "WHERE fb.feedback_status = ?";
+		return this.jdbcTemplate.query(sqlQuery, feedbackRowMapper, feedbackStatus);
+	}
+
+}

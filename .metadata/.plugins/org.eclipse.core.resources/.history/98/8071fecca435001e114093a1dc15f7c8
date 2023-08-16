@@ -1,0 +1,191 @@
+package com.snm.candidateevaluationapplication.report;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+
+@Component
+public class ExcelReportGenerator {
+    
+	/*
+	 * ----- Report by feedback screening level start -----
+	 * */
+    public byte[] generateReportByLevel(List<Feedback> feedbacks, String feedbackScreeningLevel) throws IOException {
+        // Create an Excel workbook and sheet
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Candidate Evaluation Report - Level " + feedbackScreeningLevel);
+        
+     // Create a CellStyle for the table header
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+        headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        // Create a Font for the header text
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerCellStyle.setFont(headerFont);
+        
+     // Write headers
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Feedback ID");
+        headerRow.createCell(1).setCellValue("Candidate ID");
+        headerRow.createCell(2).setCellValue("Candidate Name");
+        headerRow.createCell(3).setCellValue("Candidate Phone");
+        headerRow.createCell(4).setCellValue("Candidate Email");
+        headerRow.createCell(5).setCellValue("Evaluator Id");
+        headerRow.createCell(6).setCellValue("Evaluator Name");
+        headerRow.createCell(7).setCellValue("Feedback Status");
+        headerRow.createCell(8).setCellValue("Feedback Date");
+        
+        headerRow.createCell(9).setCellValue("Feedback Screening level");
+        
+        
+     // Write data
+        int rowNum = 1;
+        for (Feedback feedback : feedbacks) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(feedback.getFeedbackId());
+			row.createCell(1).setCellValue(feedback.getFeedbackCandidateId());
+			row.createCell(2).setCellValue(feedback.getFeedbackCandidate().getCandidateName());
+			row.createCell(3).setCellValue(feedback.getFeedbackCandidate().getCandidatePhone());
+			row.createCell(4).setCellValue(feedback.getFeedbackCandidate().getCandidateEmail());
+			row.createCell(5).setCellValue(feedback.getFeedbackEvalutorId());
+			row.createCell(6).setCellValue(feedback.getFeedbackEvalutor().getEmpName());
+			row.createCell(7).setCellValue(feedback.getFeedbackStatus());
+			row.createCell(8).setCellValue(feedback.getFeedbackDatetime());
+
+
+
+			row.createCell(9).setCellValue(feedback.getFeedbackScreeningLevel());
+        }
+        
+        
+     // Write the workbook to a file or stream
+//        FileOutputStream fileOut = new FileOutputStream("candidate_evaluation_report_by_level_" + feedbackScreeningLevel + ".xlsx");
+//        workbook.write(fileOut);
+//        fileOut.close();
+//        workbook.close();
+
+
+        // Write the workbook to a ByteArrayOutputStream
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        workbook.write(byteArrayOutputStream);
+        workbook.close();
+
+        // Get the byte array from ByteArrayOutputStream
+        byte[] excelFile = byteArrayOutputStream.toByteArray();
+        byteArrayOutputStream.close();
+
+        return excelFile;
+        
+//        FileOutputStream fileOut = new FileOutputStream("candidate_evaluation_report_by_level_" + feedbackScreeningLevel + ".xlsx");
+//        workbook.write(fileOut);
+//        fileOut.close();
+//        workbook.close();
+    }
+    /*
+	 * ----- Report by feedback screening level end -----
+	 */
+
+    
+    /*
+     * ----- Report by evaluator start -----
+     * */
+    public void generateReportByEvaluator(List<Feedback> feedbacks, String empName) throws IOException {
+        // Create an Excel workbook and sheet
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Candidate Evaluation Report - Evaluator " + empName);
+
+        // Populate the sheet with data and aggregates based on the evaluator
+
+        // Write the workbook to a file or stream
+        FileOutputStream fileOut = new FileOutputStream("candidate_evaluation_report_by_evaluator_" + empName + ".xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
+        workbook.close();
+    }
+    
+    /*
+	 * Report by evaluator end
+	 */	
+	
+	
+	/*
+	 * ----- Report by feedback status start -----
+	 */
+        public byte[] generateReportByStatus(List<Feedback> feedbacks, String feedbackStatus) throws IOException {
+        // Create an Excel workbook and sheet
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Candidate Evaluation Report - Status " + feedbackStatus);
+        
+        
+
+     // Write headers
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Feedback ID");
+        headerRow.createCell(1).setCellValue("Candidate ID");
+        headerRow.createCell(2).setCellValue("Candidate Name");
+        headerRow.createCell(3).setCellValue("Candidate Phone");
+        headerRow.createCell(4).setCellValue("Candidate Email");
+        headerRow.createCell(5).setCellValue("Evaluator Id");
+        headerRow.createCell(6).setCellValue("Evaluator Name");
+        headerRow.createCell(7).setCellValue("Feedback Screening Level");
+        headerRow.createCell(8).setCellValue("Feedback Date");
+        
+        headerRow.createCell(9).setCellValue("Feedback status");
+        
+        
+        
+        // Write data
+           int rowNum = 1;
+           for (Feedback feedback : feedbacks) {
+               Row row = sheet.createRow(rowNum++);
+               row.createCell(0).setCellValue(feedback.getFeedbackId());
+   			row.createCell(1).setCellValue(feedback.getFeedbackCandidateId());
+   			row.createCell(2).setCellValue(feedback.getFeedbackCandidate().getCandidateName());
+   			row.createCell(3).setCellValue(feedback.getFeedbackCandidate().getCandidatePhone());
+   			row.createCell(4).setCellValue(feedback.getFeedbackCandidate().getCandidateEmail());
+   			row.createCell(5).setCellValue(feedback.getFeedbackEvalutorId());
+   			row.createCell(6).setCellValue(feedback.getFeedbackEvalutor().getEmpName());
+   			row.createCell(7).setCellValue(feedback.getFeedbackScreeningLevel());
+   			row.createCell(8).setCellValue(feedback.getFeedbackDatetime());
+
+
+
+   			row.createCell(9).setCellValue(feedback.getFeedbackStatus());
+           }
+
+
+
+           // Write the workbook to a ByteArrayOutputStream
+           ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+           workbook.write(byteArrayOutputStream);
+           workbook.close();
+
+           // Get the byte array from ByteArrayOutputStream
+           byte[] excelFile2 = byteArrayOutputStream.toByteArray();
+           byteArrayOutputStream.close();
+
+           return excelFile2;
+    }
+        /*
+    	 * ----- Report by feedback status end -----
+    	 */
+}

@@ -1,0 +1,78 @@
+package com.snm.candidateevaluationapplication.repository.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+import com.snm.candidateevaluationapplication.repository.FeedbackRepository;
+import com.snm.candidateevaluationapplication.services.impl.FeedbackRowMapper;
+
+@Repository
+public class FeedbackRepositoryImpl implements FeedbackRepository{
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate; // repository layer depend on jdbc template and it will depend on data source
+    // and data source is connected with the
+	
+	String sqlQuery;
+	
+	@Autowired
+	FeedbackRowMapper feedbackRowMapper; // rowmapper responsible to map rows in single table or else multiple tables
+	
+	
+	@Override
+	public List<Feedback> findAll() {
+		
+		sqlQuery = "SELECT * FROM cea_feedback feedback INNER JOIN cea_candidate candidate INNER JOIN cea_master_employee mastemp ON (candidate.candidate_id = feedback.feedback_candidate_id AND mastemp.emp_id = feedback.feedback_evaluator_id) WHERE candidate.is_active=1 ORDER BY candidate.candidate_id";
+		
+		return this.jdbcTemplate.query(sqlQuery, feedbackRowMapper);
+	}
+	
+	@Override
+	public List<Feedback> findByCandidate(int candidateId) {
+		sqlQuery = "SELECT * FROM cea_feedback feedback INNER JOIN cea_candidate candidate INNER JOIN cea_master_employee mastemp ON (candidate.candidate_id = feedback.feedback_candidate_id AND mastemp.emp_id = feedback.feedback_evaluator_id) WHERE feedback.feedback_candidate_id = ?";
+		return this.jdbcTemplate.query(sqlQuery, feedbackRowMapper, candidateId);
+		
+	}
+
+//	@Override
+//	public List<Feedback> findByName(String feedbackName) {
+//		sqlQuery = "SELECT * FROM cea_feedback WHERE isActive=1 and feedbackName like '"+feedbackName+"%'";
+//
+//		List<Feedback> flist = this.jdbcTemplate.query(sqlQuery, feedbackRowMapper);
+//
+//		return flist;;
+//	}
+	
+	
+	  @Override 
+	  public void save(Feedback feedback) { 
+		  
+		  sqlQuery =  "INSERT INTO cea_feedback (feedback_evaluator_id, feedback_candidate_id, feedback_screening_level, feedback_status, feedback_comment, feedback_date) VALUES (?,?,?,?,?,?)"; 
+		  
+		  int i =  this.jdbcTemplate.update(sqlQuery,feedback.getFeedbackEvalutorId(),feedback.getFeedbackCandidateId(),feedback.getFeedbackScreeningLevel(),feedback.getFeedbackStatus(),feedback.getFeedbackComment(),feedback.getFeedbackDatetime());
+	  		  
+	  }
+
+//@Override
+//public List<Feedback> findByName(String candidateName, String empName) {
+//	sqlQuery = "SELECT * FROM cea_feedback feedback INNER JOIN cea_candidate candidate INNER JOIN cea_master_employee mastemp ON (candidate.candidate_id = feedback.feedback_candidate_id AND mastemp.emp_id = feedback.feedback_evaluator_id)"
+//			+ " WHERE candidate.is_active=1 AND (candidate.candidate_name LIKE '\"+candidateName+\"%' OR candidate.candidate_name LIKE '%\"+candidateName+\"%' OR mastemp.emp_name LIKE '%\\\"+empName+\\\"%' OR mastemp.emp_name LIKE '%\\\"+empName+\\\"%')"
+//			+ "ORDER BY candidate.candidate_id";
+//	List<Feedback> fbList = this.jdbcTemplate.query(sqlQuery, feedbackRowMapper);
+//	return fbList;
+//}
+
+	  
+	  
+
+
+	 
+
+
+
+
+}

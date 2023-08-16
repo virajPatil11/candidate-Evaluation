@@ -1,0 +1,158 @@
+package com.snm.candidateevaluationapplication.model;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.snm.candidateevaluationapplication.services.FeedbackService;
+
+//import org.springframework.lang.NonNull;
+
+public class Candidate {
+	
+	private int candidateId;
+//	@NonNull
+	private String candidateName;
+	private long candidatePhone;
+	private String candidateEmail;
+	private String candidateResume;
+	private String candidateComment;
+	private String candidateCreatedDate;
+	private int isCandidateActive;
+	
+	List<Feedback> candidateFeedbackList;
+	
+	@Autowired
+	FeedbackService feedbackService;
+	
+	// ----- Getters & Setters -----
+	/**
+	 * @return the candidateId
+	 */
+	public int getCandidateId() {
+		return candidateId;
+	}
+	/**
+	 * @param candidateId the candidateId to set
+	 */
+	public void setCandidateId(int candidateId) {
+		this.candidateId = candidateId;
+	}
+	/**
+	 * @return the candidateName
+	 */
+	public String getCandidateName() {
+		return candidateName;
+	}
+	/**
+	 * @param candidateName the candidateName to set
+	 */
+	public void setCandidateName(String candidateName) {
+		this.candidateName = candidateName;
+	}
+	/**
+	 * @return the candidatePhone
+	 */
+	public long getCandidatePhone() {
+		return candidatePhone;
+	}
+	/**
+	 * @param candidatePhone the candidatePhone to set
+	 */
+	public void setCandidatePhone(long candidatePhone) {
+		this.candidatePhone = candidatePhone;
+	}
+	/**
+	 * @return the candidateEmail
+	 */
+	public String getCandidateEmail() {
+		return candidateEmail;
+	}
+	/**
+	 * @param candidateEmail the candidateEmail to set
+	 */
+	public void setCandidateEmail(String candidateEmail) {
+		this.candidateEmail = candidateEmail;
+	}
+	/**
+	 * @return the candidateResume
+	 */
+	public String getCandidateResume() {
+		return candidateResume;
+	}
+	/**
+	 * @param candidateResume the candidateResume to set
+	 */
+	public void setCandidateResume(String candidateResume) {
+		this.candidateResume = candidateResume;
+	}
+	/**
+	 * @return the candidateComment
+	 */
+	public String getCandidateComment() {
+		return candidateComment;
+	}
+	/**
+	 * @param candidateComment the candidateComment to set
+	 */
+	public void setCandidateComment(String candidateComment) {
+		this.candidateComment = candidateComment;
+	}
+	/**
+	 * @return the candidateCreatedDate
+	 */
+	public String getCandidateCreatedDate() {
+		return candidateCreatedDate;
+	}
+	/**
+	 * @param candidateCreatedDate the candidateCreatedDate to set
+	 */
+	public void setCandidateCreatedDate(String candidateCreatedDate) {
+		this.candidateCreatedDate = candidateCreatedDate;
+	}
+	/**
+	 * @return the isCandidateActive
+	 */
+	public int getIsCandidateActive() {
+		return isCandidateActive;
+	}
+	/**
+	 * @param isCandidateActive the isCandidateActive to set
+	 */
+	public void setIsCandidateActive(int isCandidateActive) {
+		this.isCandidateActive = isCandidateActive;
+	}
+	
+	
+	// ----- toString() -----
+ 	@Override
+	public String toString() {
+		return "Candidate [candidateId=" + candidateId + ", candidateName=" + candidateName + ", candidatePhone="
+				+ candidatePhone + ", candidateEmail=" + candidateEmail + ", candidateResume=" + candidateResume
+				+ ", candidateComment=" + candidateComment + ", candidateCreatedDate=" + candidateCreatedDate
+				+ ", isCandidateActive=" + isCandidateActive + "]";
+	}
+ 	
+ 	
+ 	
+	/**
+	 * @return the candidateFeedbackList
+	 */
+	public List<Feedback> getCandidateFeedbackList() {
+		return candidateFeedbackList;
+	}
+	/**
+	 * @param candidateFeedbackList the candidateFeedbackList to set
+	 */
+	public void setCandidateFeedbackList(List<Feedback> candidateFeedbackList) {
+		this.candidateFeedbackList = candidateFeedbackList;
+		List<String> completedScreeningLevels = this.getCandidateFeedbackList().stream().map(f->f.getFeedbackScreeningLevel()).toList();    
+		System.out.println(completedScreeningLevels);
+		this.feedbackStatus = this.candidateFeedbackList.stream().anyMatch(f->f.getFeedbackStatus().equals("not selected")) || completedScreeningLevels.containsAll(List.of("L1","L2","L3"));
+	}
+	
+	
+	
+	
+
+}

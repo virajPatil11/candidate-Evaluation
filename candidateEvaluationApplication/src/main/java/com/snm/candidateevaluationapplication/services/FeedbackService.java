@@ -1,0 +1,16 @@
+package com.snm.candidateevaluationapplication.services;
+
+import java.util.List;
+
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+
+public interface FeedbackService {
+	
+	List<Feedback> findAll();
+	
+	void save(Feedback feedback);
+
+//	List<Feedback> findByName(String candidateName, String empName);
+
+}

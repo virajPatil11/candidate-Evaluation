@@ -1,0 +1,83 @@
+@charset "ISO-8859-1";
+
+body {
+  background-color: #f0f0f0;
+  FONT-FAMILY: Arial
+}
+
+.navbar-color {
+	background-color: #ececed;
+}
+
+.navbar-color * {
+	color:#000000;
+	font-weight: bold;
+}
+
+.btn-eviden {
+		color:black;
+		font-weight: bold;
+		border-color:#ff6d43;
+		/* border-style: solid 2px; */
+		text-transform: capitalize;
+}
+
+.login-form .btn-eviden {
+		float: right;
+}
+.btn-eviden:hover {
+		color:white;
+		font-weight: bold;
+		background-color: #ff6d43;
+}
+
+.ft-color {
+	color:black;
+}
+
+.colors {
+	color: #002d3c !important;
+	background-color: #ffcd43 !important;
+}
+
+.link-disabled {
+	pointer-events: none;
+}
+
+.index {
+	background-image: url("../images/logo/happy-employees.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	
+}
+
+.welcome-title {
+	color:#002d3c;
+	font-size:50px!important;
+	font-weight: bolder;
+	text-align: center;
+	margin-top:40px; 
+	text-shadow: 1px 1px 2px #ececed;;
+}
+
+.login-form {
+	width:250px;
+	background-color:#ececed;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 8px 5px rgba(0, 0, 0, .4);
+	margin: 100px auto;
+}
+
+.login-form h4 {
+	text-align: center;
+}
+
+.login-form label {
+	color: black;
+}
+
+.error {
+	font-size: 13px;
+	text-align: center;
+}

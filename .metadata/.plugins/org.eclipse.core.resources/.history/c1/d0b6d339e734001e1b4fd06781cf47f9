@@ -1,0 +1,28 @@
+package com.snm.candidateevaluationapplication.services.impl;
+
+import java.util.List;
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+import com.snm.candidateevaluationapplication.services.ReportService;
+
+public class ReportServiceImpl implements ReportService {
+
+	@Override
+	public List<Feedback> findByLevel(String feedbackScreeningLevel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Feedback> findByEvaluator(String empName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Feedback> findByFeedbackStatus(String feedbackStatus) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

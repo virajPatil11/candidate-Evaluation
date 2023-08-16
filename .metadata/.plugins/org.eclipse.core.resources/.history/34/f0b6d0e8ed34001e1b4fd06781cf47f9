@@ -1,0 +1,40 @@
+package com.snm.candidateevaluationapplication.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.snm.candidateevaluationapplication.model.Feedback;
+import com.snm.candidateevaluationapplication.report.ExcelReportGenerator;
+import com.snm.candidateevaluationapplication.services.ReportService;
+
+@Controller
+@RequestMapping(value = "/report")
+public class ReportController {
+	
+	@Autowired
+	ReportService reportService;
+	
+	@Autowired
+	ExcelReportGenerator excelReportGenerator;
+	
+	@RequestMapping(value = "/generateReortByLevel")
+	public void generateReportByLevel(@RequestParam("feedbackScreeningLevel") String level) throws IOException {
+		List<Feedback> evaliations = reportService.findByLevel(level);
+		excelReportGenerator.generateReportByLevel(evaliations, level);
+	}
+	
+	@RequestMapping("/generateReportByEvaluator")
+    public void generateReportByEvaluator(@RequestParam("empName") String evaluator) throws IOException {
+        List<Feedback> evaluations = reportService.findByEvaluator(evaluator);
+        excelReportGenerator.generateReportByEvaluator(evaluations, evaluator);
+    }
+	
+	
+
+}
